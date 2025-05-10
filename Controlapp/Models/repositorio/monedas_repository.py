@@ -1,18 +1,18 @@
 from ..sqlite import get_connection
 
-def get_cuentas():
+def get_monedas():
     """
     Obtiene todas las cuentas de la base de datos.
     :return: Lista de diccionarios con los datos de las cuentas.
     """
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM cuentas")
+    cursor.execute("SELECT * FROM monedas")
     rows = cursor.fetchall()
     conn.close()
     return [dict(row) for row in rows]
 
-def insert_cuenta(nombre, saldo):
+def insert_monedas(nombre, simbolo):
     """
     Inserta una nueva cuenta en la base de datos.
     :param nombre: Nombre de la cuenta.
@@ -23,17 +23,17 @@ def insert_cuenta(nombre, saldo):
     cursor = conn.cursor()
     try:
         cursor.execute(
-            "INSERT INTO cuentas (nombre, saldo_inicial) VALUES (?, ?)",
-            (nombre, saldo)
+            "INSERT INTO monedas (monedas_id, nombre, simbolo) VALUES (?, ?)",
+            (nombre, simbolo)
         )
         conn.commit()
     except Exception as e:
-        print(f"Error al insertar la cuenta: {e}")
+        print(f"Error al insertar la moneda: {e}")
         conn.rollback()
     finally:
-        conn.close()
+        conn.close()    
 
-def update_cuenta(cuenta_id, nombre, saldo):
+def update_monedas(moneda_id, nombre, simbolo):
     """
     Actualiza los datos de una cuenta en la base de datos.
     :param cuenta_id: ID de la cuenta a actualizar.
@@ -46,16 +46,16 @@ def update_cuenta(cuenta_id, nombre, saldo):
     try:
         cursor.execute(
             "UPDATE cuentas SET nombre = ?, saldo_inicial = ? WHERE id = ?",
-            (nombre, saldo, cuenta_id)
+            (moneda_id, nombre, simbolo)
         )
         conn.commit()
     except Exception as e:
-        print(f"Error al actualizar la cuenta: {e}")
+        print(f"Error al actualizar la moneda: {e}")
         conn.rollback()
     finally:
         conn.close()
 
-def delete_cuenta(cuenta_id):
+def delete_monedas(monedas_id):
     """
     Elimina una cuenta de la base de datos.
     :param cuenta_id: ID de la cuenta a eliminar.
@@ -64,10 +64,10 @@ def delete_cuenta(cuenta_id):
     conn = get_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("DELETE FROM cuentas WHERE id = ?", (cuenta_id))
+        cursor.execute("DELETE FROM monedas WHERE id = ?", (monedas_id))
         conn.commit()
     except Exception as e:
-        print(f"Error al eliminar la cuenta: {e}")
+        print(f"Error al eliminar la moneda: {e}")
         conn.rollback()
     finally:
         conn.close()
