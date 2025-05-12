@@ -1,29 +1,97 @@
+from pydoc import text
 import customtkinter as ctk
+from PIL import Image, ImageTk
+from sqlalchemy import column
+from .theme import *
+from ..Controllers.accounts_controller import *
+
+
 
 class VistaDashboard(ctk.CTkFrame):
     def __init__(self, master=None):
         super().__init__(master)
 
-        self.master = master
-        # self.title("Dashboard")
-        # self.geometry("800x600")
-        # self.configure(fg_color="#f5f5f5")
-
-        # Título
-        self.label_titulo = ctk.CTkLabel(self.master, text="Overview", font=("Arial", 20, "bold"))
-        self.label_titulo.grid(row=0, column=0, padx=20, pady=10)
-
-
+        self.configure(fg_color = PRIMARY_BG)
         
-        # Gráficos de rendimiento
-        # self.frame_graficos = ctk.CTkFrame(self, corner_radius=10)
-        # self.frame_graficos.pack(padx=20, pady=10, fill="both", expand=True)
+        if master is not None:
+            master.grid_rowconfigure(0, weight=1)
+            master.columnconfigure(0, weight=1)
 
-        # Botón para ver detalles
-        # self.boton_detalles = ctk.CTkButton(self, text="Ver Detalles", command=self.ver_detalles)
-        # self.boton_detalles.pack(pady=10)
 
-    # def ver_detalles(self):
-    #     # Lógica para ver detalles del rendimiento
-    #     print("Ver detalles del rendimiento")
+        self.grid(row=0, column=0, sticky="nsew")
+
+
+        # Menu
+        menuLateralFrame = ctk.CTkFrame(self, fg_color = SIDEBAR_BG, width=100)
+        menuLateralFrame.grid(row=0, column=0, sticky="nsew")
+        menuLateralFrame.grid_propagate(False)
+
+
+        icon_home = ctk.CTkImage(light_image=Image.open(f"{ASSETS}plugin.png"), size=ICON_SIZE_V)
+        btn_home = ctk.CTkButton(menuLateralFrame, text="",image=icon_home,  fg_color="transparent", width=48, height=48, command=self.overview)
+        btn_home.pack(pady=(30, 10), padx=10, fill="x")
+
+
+        icon_accounts = ctk.CTkImage(light_image=Image.open(f"{ASSETS}accounts.png"), size=ICON_SIZE_H)
+        btn_accounts = ctk.CTkButton(menuLateralFrame, text="", image=icon_accounts, fg_color="transparent", width=48, height=48, command=self.adminAccounts)
+        btn_accounts.pack(pady=(30, 10), padx=10, fill="x")
+
+
+        # Dashboard
+        self.dashFrame = ctk.CTkFrame(self, fg_color = PRIMARY_BG)
+        self.dashFrame.grid(row=0, column=1, sticky="nsew", padx=20, pady=30)
+
+
+        # DashHeader
+        self.dashHeader = ctk.CTkFrame(self.dashFrame, fg_color = PRIMARY_BG)
+        self.dashHeader.grid(row=0, column=0, sticky="nsew")
+
+         # Título
+        self.header_title = ctk.CTkLabel(self.dashHeader, text="Overview", font=("Arial", 20, "bold"), text_color = PRIMARY_TEXT)
+        self.header_title.grid(row=0, column=0)
+
+        self.overview()
+
+        # Dashbody
+        self.dashBody = ctk.CTkFrame(self.dashFrame, fg_color = PRIMARY_BG)
+        self.dashBody.grid(row=1, column=0, sticky="nsew")
+
+        self.bodyTitle = ctk.CTkLabel(self.dashHeader, text="Overview", font=("Arial", 20, "bold"), text_color = PRIMARY_TEXT)
+        self.bodyTitle.grid(row=0, column=0)
+
+
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(1, weight=1)
+
+
+
+    def overview(self):
+        self.header_title.configure(text="Overview")
+        self.bodyTitle.configure(text="Mis Cuentas")
+
+        accounts = obtener_cuentas()
+
+
+        if accounts:
+            print("Hay cuentas")
+            for acc in accounts:
+
+                account_item = ctk.CTkFrame(self.dashBody, fg_color=ACCOUNT_1ST_ITEM)
+                account_item.grid(row=1, column=0)
+
+                print(acc)
+        else:
+            pass
+
+
+
+    def adminAccounts(self):
+
+        self.header_title.configure(text="Cuentas")
+        pass
+
+
+    def getAccounts(self):
+        pass
 

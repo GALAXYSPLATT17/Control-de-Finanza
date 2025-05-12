@@ -1,4 +1,4 @@
-from ..Models.modelo_principal import modelo_principal as modelo
+# from ..Models.modelo_principal import modelo_principal as modelo
 
 
 def obtener_cuentas():
@@ -7,6 +7,8 @@ def obtener_cuentas():
     Cada diccionario contiene la información de una cuenta.
     """
     # Obtener todas las cuentas de la base de datos
-    cuentas = modelo.obtener_cuentas()
+    cuentas = [
+        {"Name": "Principal", "balance": 200}
+    ]
 
     return cuentas

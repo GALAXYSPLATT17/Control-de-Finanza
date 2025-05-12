@@ -9,6 +9,8 @@ class App ():
         self.ventana = ctk.CTk ()
         self.ventana.geometry ("800x600")
         self.ventana.title ("Control de Finanzas")
+        self.ventana._set_appearance_mode("dark")
+        self.ventana.minsize(width=500, height=500)
 
         # self.label = ctk.CTkLabel (self.ventana, text="Overview", font=("Arial", 20, "bold"))
         # self.label.grid (row=0, column=0, padx=20, pady=10)
