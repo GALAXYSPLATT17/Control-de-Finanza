@@ -50,13 +50,12 @@ class VistaDashboard(ctk.CTkFrame):
         self.header_title = ctk.CTkLabel(self.dashHeader, text="Overview", font=("Arial", 20, "bold"), text_color = PRIMARY_TEXT)
         self.header_title.grid(row=0, column=0)
 
-        self.overview()
 
         # Dashbody
         self.dashBody = ctk.CTkFrame(self.dashFrame, fg_color = PRIMARY_BG)
         self.dashBody.grid(row=1, column=0, sticky="nsew")
 
-        self.bodyTitle = ctk.CTkLabel(self.dashHeader, text="Overview", font=("Arial", 20, "bold"), text_color = PRIMARY_TEXT)
+        self.bodyTitle = ctk.CTkLabel(self.dashBody, text="Mis Cuentas", font=("Arial", 16, "bold"), text_color = PRIMARY_TEXT)
         self.bodyTitle.grid(row=0, column=0)
 
 
@@ -65,6 +64,7 @@ class VistaDashboard(ctk.CTkFrame):
         self.grid_columnconfigure(1, weight=1)
 
 
+        self.overview()
 
     def overview(self):
         self.header_title.configure(text="Overview")
@@ -75,10 +75,23 @@ class VistaDashboard(ctk.CTkFrame):
 
         if accounts:
             print("Hay cuentas")
-            for acc in accounts:
+            for index, acc in enumerate(accounts):
 
-                account_item = ctk.CTkFrame(self.dashBody, fg_color=ACCOUNT_1ST_ITEM)
-                account_item.grid(row=1, column=0)
+                account_item = ctk.CTkFrame(self.dashBody, fg_color=ACCOUNT_1ST_ITEM, width=200, height=150)
+                account_item.grid(row=1, column=index, padx=10, pady=10)
+
+                account_balance = ctk.CTkLabel(account_item, text=f"${acc['balance']}", font=("Arial", 24, "bold"), text_color = PRIMARY_TEXT)
+                account_balance.grid(row=0, column=0)
+
+                account_name = ctk.CTkLabel(account_item, text=acc["Name"], font=("Arial", 16, "bold"), text_color = PRIMARY_TEXT)
+                account_name.grid(row=1, column=0, padx=10, pady=10)
+                # account_item.grid_rowconfigure(0, weight=1)
+                # account_item.grid_columnconfigure(0, weight=1)
+                # account_item.grid_columnconfigure(1, weight=1)
+                # account_item.grid_propagate(False)
+                # account_item.configure(width=200, height=50)
+                # account_item.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
+                # account_item.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
 
                 print(acc)
         else:
@@ -89,6 +102,7 @@ class VistaDashboard(ctk.CTkFrame):
     def adminAccounts(self):
 
         self.header_title.configure(text="Cuentas")
+        self.bodyTitle.configure(text="Administrar Cuentas")
         pass
 
 
