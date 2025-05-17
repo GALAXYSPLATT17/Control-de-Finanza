@@ -2,8 +2,8 @@ from ..sqlite import get_connection
 
 def get_usuarios():
     """
-    Obtiene todas las cuentas de la base de datos.
-    :return: Lista de diccionarios con los datos de las cuentas.
+    Obtiene todos los usuarios de la base de datos.
+    :return: Lista de diccionarios con los datos de los usuarios.
     """
     conn = get_connection()
     cursor = conn.cursor()

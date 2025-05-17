@@ -2,8 +2,8 @@ from ..sqlite import get_connection
 
 def get_tipo_cuentas():
     """
-    Obtiene todas las cuentas de la base de datos.
-    :return: Lista de diccionarios con los datos de las cuentas.
+    Obtiene todas los tipos de cuentas de la base de datos.
+    :return: Lista de diccionarios con los datos de los tipos de cuentas.
     """
     conn = get_connection()
     cursor = conn.cursor()
@@ -14,9 +14,8 @@ def get_tipo_cuentas():
 
 def insert_tipo_cuenta(nombre):
     """
-    Inserta una nueva cuenta en la base de datos.
-    :param nombre: Nombre de la cuenta.
-    :param saldo_inicial: Saldo inicial de la cuenta.
+    Inserta un nuevo tipo de cuenta en la base de datos.
+    :param nombre: Nombre del tipo de cuenta.
     :return: None
     """
     conn = get_connection()
@@ -30,20 +29,21 @@ def insert_tipo_cuenta(nombre):
     except Exception as e:
         print(f"Error al insertar el tipo de cuenta: {e}")
         conn.rollback()
+    finally:
+        conn.close()
 
 def update_cuenta(tipo_cuenta_id, nombre):
     """
-    Actualiza los datos de una cuenta en la base de datos.
-    :param cuenta_id: ID de la cuenta a actualizar.
-    :param nombre: Nuevo nombre de la cuenta.
-    :param saldo: Nuevo saldo de la cuenta.
+    Actualiza los datos de un tipo de cuenta en la base de datos.
+    :param tipo_cuenta_id: ID del tipo de cuenta a actualizar.
+    :param nombre: Nuevo nombre del tipo de cuenta.
     :return: None
     """
     conn = get_connection()
     cursor = conn.cursor()
     try:
         cursor.execute(
-            "UPDATE cuentas SET nombre = ?, saldo_inicial = ? WHERE id = ?",
+            "UPDATE tipo de cuentas SET nombre = ? WHERE id = ?",
             (nombre, tipo_cuenta_id)
         )
         conn.commit()
@@ -55,14 +55,14 @@ def update_cuenta(tipo_cuenta_id, nombre):
 
 def delete_tipo_cuenta(tipo_cuenta_id):
     """
-    Elimina una cuenta de la base de datos.
-    :param cuenta_id: ID de la cuenta a eliminar.
+    Elimina un tipo de cuenta de la base de datos.
+    :param tipo_cuenta_id: ID del tipo de cuenta a eliminar.
     :return: None
     """
     conn = get_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("DELETE FROM tipo_cuentas WHERE id = ?", (tipo_cuenta_id,))
+        cursor.execute("DELETE FROM tipo_cuentas WHERE id = ?", (tipo_cuenta_id))
         conn.commit()
     except Exception as e:
         print(f"Error al eliminar el tipo de cuenta: {e}")
