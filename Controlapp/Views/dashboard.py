@@ -1,6 +1,8 @@
 from pydoc import text
+from turtle import color
 import customtkinter as ctk
 from PIL import Image, ImageTk
+from narwhals import col
 # from sqlalchemy import column
 from .theme import *
 from ..Controllers.accounts_controller import *
@@ -80,10 +82,27 @@ class VistaDashboard(ctk.CTkFrame):
             print("Hay cuentas")
             for index, acc in enumerate(accounts):
 
-                account_item = ctk.CTkFrame(self.dashBody, fg_color=ACCOUNT_1ST_ITEM, width=200, height=150)
+                simbol = ""
+                color = ""
+
+                if acc["simbolo"] == "USD":
+                    simbol = "$ "
+
+                if acc["simbolo"] == "VES":
+                    simbol = "Bs "
+
+                if acc["simbolo"] == "EUR":
+                    simbol = "€ "
+
+                if index == 0:
+                    color = "#83e4f7"
+                else:
+                    color = ACCOUNT_1ST_ITEM
+
+                account_item = ctk.CTkFrame(self.dashBody, fg_color=color, width=200, height=150)
                 account_item.grid(row=1, column=index, padx=10, pady=10)
 
-                account_balance = ctk.CTkLabel(account_item, text=f"{acc['saldo']}", font=("Arial", 24, "bold"), text_color = PRIMARY_TEXT)
+                account_balance = ctk.CTkLabel(account_item, text=f"{simbol}{acc['saldo']}", font=("Arial", 24, "bold"), text_color = PRIMARY_TEXT)
                 account_balance.grid(row=0, column=0, pady=30)
 
                 account_name = ctk.CTkLabel(account_item, text=acc["nombre"], font=("Arial", 16, "bold"), text_color = PRIMARY_TEXT)
