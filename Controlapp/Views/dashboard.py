@@ -81,10 +81,10 @@ class VistaDashboard(ctk.CTkFrame):
             for index, acc in enumerate(accounts):
 
                 account_item = ctk.CTkFrame(self.dashBody, fg_color=ACCOUNT_1ST_ITEM, width=200, height=150)
-                account_item.grid(row=1, column=index, padx=10, pady=50)
+                account_item.grid(row=1, column=index, padx=10, pady=10)
 
                 account_balance = ctk.CTkLabel(account_item, text=f"{acc['saldo']}", font=("Arial", 24, "bold"), text_color = PRIMARY_TEXT)
-                account_balance.grid(row=0, column=0)
+                account_balance.grid(row=0, column=0, pady=30)
 
                 account_name = ctk.CTkLabel(account_item, text=acc["nombre"], font=("Arial", 16, "bold"), text_color = PRIMARY_TEXT)
                 account_name.grid(row=1, column=0, padx=10, pady=10)
