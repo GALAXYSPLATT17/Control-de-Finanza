@@ -7,10 +7,13 @@ def get_cuentas():
     """
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM cuentas")
-    rows = cursor.fetchall()
+    cursor.execute("SELECT * FROM cuentas c JOIN monedas m ON c.moneda_id = m.id JOIN tipos_cuentas t ON c.tipo_cuenta_id = t.id")
+    cuentas = cursor.fetchall()
     conn.close()
-    return [dict(row) for row in rows]
+
+    print("Cuentas obtenidas:", cuentas)
+
+    return [dict(row) for row in cuentas]
 
 def insert_cuenta(nombre, saldo):
     """

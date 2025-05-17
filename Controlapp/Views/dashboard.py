@@ -1,7 +1,7 @@
 from pydoc import text
 import customtkinter as ctk
 from PIL import Image, ImageTk
-from sqlalchemy import column
+# from sqlalchemy import column
 from .theme import *
 from ..Controllers.accounts_controller import *
 
@@ -27,14 +27,17 @@ class VistaDashboard(ctk.CTkFrame):
         menuLateralFrame.grid_propagate(False)
 
 
-        icon_home = ctk.CTkImage(light_image=Image.open(f"{ASSETS}plugin.png"), size=ICON_SIZE_V)
-        btn_home = ctk.CTkButton(menuLateralFrame, text="",image=icon_home,  fg_color="transparent", width=48, height=48, command=self.overview)
+        # icon_home = ctk.CTkImage(light_image=Image.open(f"{ASSETS}plugin.png"), size=ICON_SIZE_V)
+        btn_home = ctk.CTkButton(menuLateralFrame, text="HOME",  fg_color="transparent", width=48, height=48, command=self.overview)
         btn_home.pack(pady=(30, 10), padx=10, fill="x")
 
 
-        icon_accounts = ctk.CTkImage(light_image=Image.open(f"{ASSETS}accounts.png"), size=ICON_SIZE_H)
-        btn_accounts = ctk.CTkButton(menuLateralFrame, text="", image=icon_accounts, fg_color="transparent", width=48, height=48, command=self.adminAccounts)
+        # icon_accounts = ctk.CTkImage(light_image=Image.open(f"{ASSETS}accounts.png"), size=ICON_SIZE_H)
+        btn_accounts = ctk.CTkButton(menuLateralFrame, text="CUENTAS",  fg_color="transparent", width=48, height=48, command=self.adminAccounts)
         btn_accounts.pack(pady=(30, 10), padx=10, fill="x")
+
+        btn_settings = ctk.CTkButton(menuLateralFrame, text="Configurar",  fg_color="transparent", width=48, height=48, command=self.config)
+        btn_settings.pack(pady=(30, 10), padx=10, fill="x")
 
 
         # Dashboard
@@ -46,7 +49,7 @@ class VistaDashboard(ctk.CTkFrame):
         self.dashHeader = ctk.CTkFrame(self.dashFrame, fg_color = PRIMARY_BG)
         self.dashHeader.grid(row=0, column=0, sticky="nsew")
 
-         # Título
+        # Título
         self.header_title = ctk.CTkLabel(self.dashHeader, text="Overview", font=("Arial", 20, "bold"), text_color = PRIMARY_TEXT)
         self.header_title.grid(row=0, column=0)
 
@@ -78,13 +81,18 @@ class VistaDashboard(ctk.CTkFrame):
             for index, acc in enumerate(accounts):
 
                 account_item = ctk.CTkFrame(self.dashBody, fg_color=ACCOUNT_1ST_ITEM, width=200, height=150)
-                account_item.grid(row=1, column=index, padx=10, pady=10)
+                account_item.grid(row=1, column=index, padx=10, pady=50)
 
-                account_balance = ctk.CTkLabel(account_item, text=f"${acc['balance']}", font=("Arial", 24, "bold"), text_color = PRIMARY_TEXT)
+                account_balance = ctk.CTkLabel(account_item, text=f"{acc['saldo']}", font=("Arial", 24, "bold"), text_color = PRIMARY_TEXT)
                 account_balance.grid(row=0, column=0)
 
-                account_name = ctk.CTkLabel(account_item, text=acc["Name"], font=("Arial", 16, "bold"), text_color = PRIMARY_TEXT)
+                account_name = ctk.CTkLabel(account_item, text=acc["nombre"], font=("Arial", 16, "bold"), text_color = PRIMARY_TEXT)
                 account_name.grid(row=1, column=0, padx=10, pady=10)
+
+                account_type = ctk.CTkLabel(account_item, text=acc["tipo_cuenta"], font=("Arial", 12), text_color = SECUNDARY_TEXT)
+                account_type.grid(row=2, column=0, padx=10, pady=10)
+
+
                 # account_item.grid_rowconfigure(0, weight=1)
                 # account_item.grid_columnconfigure(0, weight=1)
                 # account_item.grid_columnconfigure(1, weight=1)
@@ -97,14 +105,16 @@ class VistaDashboard(ctk.CTkFrame):
         else:
             pass
 
-
-
     def adminAccounts(self):
 
         self.header_title.configure(text="Cuentas")
         self.bodyTitle.configure(text="Administrar Cuentas")
         pass
 
+    def config(self):
+        self.header_title.configure(text="Configuración")
+        self.bodyTitle.configure(text="Configurar")
+        pass
 
     def getAccounts(self):
         pass
