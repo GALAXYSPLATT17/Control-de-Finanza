@@ -8,7 +8,6 @@ from .theme import *
 from ..Controllers.accounts_controller import *
 
 
-
 class VistaDashboard(ctk.CTkFrame):
     def __init__(self, master=None):
         super().__init__(master)
@@ -40,7 +39,7 @@ class VistaDashboard(ctk.CTkFrame):
 
         btn_settings = ctk.CTkButton(menuLateralFrame, text="Configurar",  fg_color="transparent", width=48, height=48, command=self.config)
         btn_settings.pack(pady=(30, 10), padx=10, fill="x")
-
+        
 
         # Dashboard
         self.dashFrame = ctk.CTkFrame(self, fg_color = PRIMARY_BG)
@@ -62,6 +61,20 @@ class VistaDashboard(ctk.CTkFrame):
 
         self.bodyTitle = ctk.CTkLabel(self.dashBody, text="Mis Cuentas", font=("Arial", 16, "bold"), text_color = PRIMARY_TEXT)
         self.bodyTitle.grid(row=0, column=0)
+        
+        self.bodyTitle = ctk.CTkLabel(self.dashBody, text="Crear Cuentas", font=("Arial", 16, "bold"), text_color = SECUNDARY_TEXT)
+        self.bodyTitle.grid(row=0, column=2)
+        
+        self.btn_nueva_cuenta = ctk.CTkButton(
+        self.dashBody,
+        text="Nueva Cuenta",
+        command=self.abrir_popup_nueva_cuenta
+        )
+        self.btn_nueva_cuenta.grid(row=0, column=1, padx=10, pady=10)
+        
+        
+        # btn_settings = ctk.CTkButton(self.dashBody, text="Crear CuentaS",  fg_color="transparent", width=48, height=48, command=self.config)
+        # btn_settings.pack(pady=(30, 10), padx=10, fill="x")
 
 
         self.grid_rowconfigure(0, weight=1)
@@ -95,7 +108,7 @@ class VistaDashboard(ctk.CTkFrame):
                     simbol = "€ "
 
                 if index == 0:
-                    color = "#83e4f7"
+                    color = "#94ffbd"
                 else:
                     color = ACCOUNT_1ST_ITEM
 
@@ -137,4 +150,53 @@ class VistaDashboard(ctk.CTkFrame):
 
     def getAccounts(self):
         pass
+        self.btn_nueva_cuenta = ctk.CTkButton(
+            self.dashBody, 
+            text="Nueva Cuenta", 
+            command=self.abrir_popup_nueva_cuenta
+        )
+
+    def abrir_popup_nueva_cuenta(self):
+        def on_submit(nombre, saldo):
+            print(f"Cuenta creada: {nombre}, Saldo inicial: {saldo}")
+            # Aquí puedes agregar la lógica para guardar la cuenta
+
+        PopupNuevaCuenta(self, on_submit=on_submit)
+class PopupNuevaCuenta(ctk.CTkToplevel):
+    def __init__(self, master, on_submit=None):
+        super().__init__(master)
+        self.title("Nueva Cuenta Bancaria")
+        self.geometry("350x200")
+        self.resizable(False, False)
+
+        ctk.CTkLabel(self, text="Nombre de la cuenta:").pack(pady=(8, 2))
+        self.entry_nombre = ctk.CTkEntry(self)
+        self.entry_nombre.pack(pady=2)
+
+        ctk.CTkLabel(self, text="Saldo inicial:").pack(pady=2)
+        self.entry_saldo = ctk.CTkEntry(self)
+        self.entry_saldo.pack(pady=2)
+
+        self.btn_crear = ctk.CTkButton(self, text="Crear", command=self.submit)
+        self.btn_crear.pack(pady=(8, 2))
+
+        self.on_submit = on_submit
+        
+    def submit(self):
+        nombre = self.entry_nombre.get()
+        saldo = self.entry_saldo.get()
+        if self.on_submit:
+            self.on_submit(nombre, saldo)
+        self.destroy()
+    
+    
+    
+    # def abrir_popup_nueva_cuenta(self):
+    #     def on_submit(nombre, saldo):
+    #         print(f"Cuenta creada: {nombre}, Saldo inicial: {saldo}")
+            
+        # PopupNuevaCuenta(self.ventana, on_submit=on_submit)
+    
+        # btn_nueva_cuenta = ctk.CTkButton(self.ventana, text="Nueva Cuenta", command=self.abrir_popup_nueva_cuenta)
+        # btn_nueva_cuenta.pack(pady=10)
 
