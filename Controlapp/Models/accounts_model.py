@@ -24,3 +24,14 @@ def get_all_users_accounts():
         })
 
     return lista_cuentas
+
+def create_account(nombre, saldo, tipo_cuenta_id, moneda_id):
+    """
+    Esta función crea una nueva cuenta en la base de datos.
+    :param nombre: Nombre de la cuenta.
+    :param saldo: Saldo inicial de la cuenta.
+    :param tipo_cuenta_id: ID del tipo de cuenta.
+    :param moneda_id: ID de la moneda.
+    :return: None
+    """
+    # insert_cuenta(nombre, saldo, tipo_cuenta_id, moneda_id)

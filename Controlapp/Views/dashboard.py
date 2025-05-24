@@ -1,11 +1,14 @@
 from pydoc import text
 from turtle import color
 import customtkinter as ctk
+import tkinter as tk
 from PIL import Image, ImageTk
 from narwhals import col
+from sqlalchemy import over
 # from sqlalchemy import column
 from .theme import *
 from ..Controllers.accounts_controller import *
+from ..Views.new_account import PopupNuevaCuenta
 
 
 class VistaDashboard(ctk.CTkFrame):
@@ -19,10 +22,37 @@ class VistaDashboard(ctk.CTkFrame):
             master.columnconfigure(0, weight=1)
 
 
+            # Barra de menú
+            menuBar = tk.Menu(master, tearoff=0)
+
+            # Configuración del menu de la barra de menú
+            menu = tk.Menu(menuBar, tearoff=0)
+            menu.add_command(label="Inicio", command=self.overview)
+            # menu.add_command(label="Cuentas", command=self.adminAccounts)
+            menu.add_command(label="Configuración", command=self.config)
+            menu.add_separator()
+            # Configuración del menu de la barra de menú
+            menu.add_command(label="Salir", command=master.quit)
+            menuBar.add_cascade(label="Menu", menu=menu)
+
+            menu_cuentas = tk.Menu(menuBar, tearoff=0)
+            menu_cuentas.add_command(label="Ver Cuentas", command=self.adminAccounts)
+            menu_cuentas.add_command(label="Agregar Cuenta", command=self.abrir_popup_nueva_cuenta)
+            # menu_1.add_command(label="Configuración", command=self.config)
+            # menu_1.add_separator()
+           
+            menuBar.add_cascade(label="Cuentas", menu=menu_cuentas)
+
+           
+            master.config(menu=menuBar)
+
+
+
+
         self.grid(row=0, column=0, sticky="nsew")
 
 
-        # Menu
+        # Menu lateral
         menuLateralFrame = ctk.CTkFrame(self, fg_color = SIDEBAR_BG, width=100)
         menuLateralFrame.grid(row=0, column=0, sticky="nsew")
         menuLateralFrame.grid_propagate(False)
@@ -65,17 +95,6 @@ class VistaDashboard(ctk.CTkFrame):
         self.bodyTitle = ctk.CTkLabel(self.dashBody, text="Crear Cuentas", font=("Arial", 16, "bold"), text_color = SECUNDARY_TEXT)
         self.bodyTitle.grid(row=0, column=2)
         
-        self.btn_nueva_cuenta = ctk.CTkButton(
-        self.dashBody,
-        text="Nueva Cuenta",
-        command=self.abrir_popup_nueva_cuenta
-        )
-        self.btn_nueva_cuenta.grid(row=0, column=1, padx=10, pady=10)
-        
-        
-        # btn_settings = ctk.CTkButton(self.dashBody, text="Crear CuentaS",  fg_color="transparent", width=48, height=48, command=self.config)
-        # btn_settings.pack(pady=(30, 10), padx=10, fill="x")
-
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=0)
@@ -149,7 +168,6 @@ class VistaDashboard(ctk.CTkFrame):
         pass
 
     def getAccounts(self):
-        pass
         self.btn_nueva_cuenta = ctk.CTkButton(
             self.dashBody, 
             text="Nueva Cuenta", 
@@ -157,46 +175,10 @@ class VistaDashboard(ctk.CTkFrame):
         )
 
     def abrir_popup_nueva_cuenta(self):
-        def on_submit(nombre, saldo):
-            print(f"Cuenta creada: {nombre}, Saldo inicial: {saldo}")
-            # Aquí puedes agregar la lógica para guardar la cuenta
-
-        PopupNuevaCuenta(self, on_submit=on_submit)
-class PopupNuevaCuenta(ctk.CTkToplevel):
-    def __init__(self, master, on_submit=None):
-        super().__init__(master)
-        self.title("Nueva Cuenta Bancaria")
-        self.geometry("350x200")
-        self.resizable(False, False)
-
-        ctk.CTkLabel(self, text="Nombre de la cuenta:").pack(pady=(8, 2))
-        self.entry_nombre = ctk.CTkEntry(self)
-        self.entry_nombre.pack(pady=2)
-
-        ctk.CTkLabel(self, text="Saldo inicial:").pack(pady=2)
-        self.entry_saldo = ctk.CTkEntry(self)
-        self.entry_saldo.pack(pady=2)
-
-        self.btn_crear = ctk.CTkButton(self, text="Crear", command=self.submit)
-        self.btn_crear.pack(pady=(8, 2))
-
-        self.on_submit = on_submit
         
-    def submit(self):
-        nombre = self.entry_nombre.get()
-        saldo = self.entry_saldo.get()
-        if self.on_submit:
-            self.on_submit(nombre, saldo)
-        self.destroy()
-    
-    
-    
-    # def abrir_popup_nueva_cuenta(self):
-    #     def on_submit(nombre, saldo):
-    #         print(f"Cuenta creada: {nombre}, Saldo inicial: {saldo}")
-            
-        # PopupNuevaCuenta(self.ventana, on_submit=on_submit)
-    
-        # btn_nueva_cuenta = ctk.CTkButton(self.ventana, text="Nueva Cuenta", command=self.abrir_popup_nueva_cuenta)
-        # btn_nueva_cuenta.pack(pady=10)
+        PopupNuevaCuenta(self)
 
+    def lista_cuentas(self):
+        self.header_title.configure(text="Cuentas")
+        self.bodyTitle.configure(text="Administrar Cuentas")
+        pass
