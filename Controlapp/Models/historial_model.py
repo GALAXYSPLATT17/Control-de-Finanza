@@ -1,6 +1,6 @@
 from .repositorio.transacciones_repository import *
 
-def get_all_transaccion():
+def get_all_transaccion() -> list[dict]:
     """
     Esta función obtiene las cuentas de la base de datos y las devuelve como una lista de diccionarios.
     Cada diccionario contiene la información de una cuenta.

@@ -29,6 +29,9 @@ class VistaListaTransacciones(ctk.CTk):
         # Lógica para agregar una nueva transacción
         print("Agregar nueva transacción")
 
+
+
+
 # # Ejecución de la aplicación
 # if __name__ == "__main__":
 #     app = VistaListaTransacciones()

@@ -1,8 +1,10 @@
 import customtkinter as ctk
 import tkinter as tk
 from PIL import Image, ImageTk
+from sqlalchemy import column
 from .theme import *
 from ..Controllers.accounts_controller import *
+from ..Controllers.historial_controller import *
 from ..Views.new_account import PopupNuevaCuenta
 
 
@@ -89,7 +91,7 @@ class VistaDashboard(ctk.CTkFrame):
 
 
         # Transacciones
-        self.dashTransacciones = ctk.CTkFrame(self.dashBody, fg_color = "red")
+        self.dashTransacciones = ctk.CTkFrame(self.dashBody, fg_color = PRIMARY_BG)
         self.dashTransacciones.grid(row=2, column=0, sticky="nsew", padx=20, pady=30)
         
 
@@ -99,6 +101,7 @@ class VistaDashboard(ctk.CTkFrame):
 
 
         self.overview()
+        self.mostrar_transacciones()
 
     def overview(self):
         self.header_title.configure(text="Overview")
@@ -142,10 +145,17 @@ class VistaDashboard(ctk.CTkFrame):
         else:
             pass
 
+        # self.mostrar_transacciones()
+
     def adminAccounts(self):
 
         self.header_title.configure(text="Cuentas")
         self.bodyTitle.configure(text="Administrar Cuentas")
+
+        # Limpiar widgets previos excepto el título
+        for widget in self.dashBody.winfo_children():
+            if widget != self.bodyTitle:
+                widget.destroy()
         pass
 
     def config(self):
@@ -167,3 +177,16 @@ class VistaDashboard(ctk.CTkFrame):
     def lista_cuentas(self):
         self.header_title.configure(text="Cuentas")
         self.bodyTitle.configure(text="Administrar Cuentas")
+
+    def mostrar_transacciones(self):
+
+        transacciones = obtener_transaccion()
+
+        for index, trans in enumerate(transacciones):
+
+            t = ctk.CTkLabel(self.dashTransacciones, text= f"Cantidad: {trans['cantidad']} - Fecha: {trans['fecha']} - Descripción: {trans['descripcion']}", text_color="#000000" )
+            
+            t.grid(row=index + 1, column=0)
+
+        print(transacciones)
+
