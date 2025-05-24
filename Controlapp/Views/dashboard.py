@@ -181,4 +181,3 @@ class VistaDashboard(ctk.CTkFrame):
     def lista_cuentas(self):
         self.header_title.configure(text="Cuentas")
         self.bodyTitle.configure(text="Administrar Cuentas")
-        pass

@@ -1,6 +1,7 @@
 import customtkinter as ctk
 
 
+
 class PopupNuevaCuenta(ctk.CTkToplevel):
     def __init__(self, master, on_submit=None):
         super().__init__(master)
