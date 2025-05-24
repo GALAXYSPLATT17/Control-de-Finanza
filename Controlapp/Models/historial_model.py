@@ -2,9 +2,11 @@ from .repositorio.transacciones_repository import *
 
 def get_all_transaccion():
     """
-    Esta función obtiene las cuentas de la base de datos y las devuelve como una lista de diccionarios.
+    Esta función obtiene las transacciones de la base de datos y las devuelve como una lista de historial.
     Cada diccionario contiene la información de una cuenta.
     """
+   
+   
     # Obtener todas las cuentas de la base de datos
     transacciones = get_transaccion()
 
