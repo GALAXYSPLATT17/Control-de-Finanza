@@ -1,2 +1,6 @@
 *.pyc
 __pycache__/
+Controlapp/Models/__pycache__/accounts_model.cpython-313.pyc
+Controlapp/Models/__pycache__/accounts_model.cpython-313.pyc
+Controlapp/Models/repositorio/__pycache__/cuentas_repository.cpython-313.pyc
+Controlapp/Views/__pycache__/dashboard.cpython-313.pyc

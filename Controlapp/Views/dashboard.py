@@ -1,11 +1,6 @@
-from pydoc import text
-from turtle import color
 import customtkinter as ctk
 import tkinter as tk
 from PIL import Image, ImageTk
-from narwhals import col
-from sqlalchemy import over
-# from sqlalchemy import column
 from .theme import *
 from ..Controllers.accounts_controller import *
 from ..Views.new_account import PopupNuevaCuenta
@@ -38,17 +33,14 @@ class VistaDashboard(ctk.CTkFrame):
             menu_cuentas = tk.Menu(menuBar, tearoff=0)
             menu_cuentas.add_command(label="Ver Cuentas", command=self.adminAccounts)
             menu_cuentas.add_command(label="Agregar Cuenta", command=self.abrir_popup_nueva_cuenta)
-            # menu_1.add_command(label="Configuración", command=self.config)
-            # menu_1.add_separator()
+           
            
             menuBar.add_cascade(label="Cuentas", menu=menu_cuentas)
 
            
             master.config(menu=menuBar)
 
-
-
-
+        # Configuración de la ventana principal
         self.grid(row=0, column=0, sticky="nsew")
 
 
@@ -94,6 +86,11 @@ class VistaDashboard(ctk.CTkFrame):
         
         self.bodyTitle = ctk.CTkLabel(self.dashBody, text="Crear Cuentas", font=("Arial", 16, "bold"), text_color = SECUNDARY_TEXT)
         self.bodyTitle.grid(row=0, column=2)
+
+
+        # Transacciones
+        self.dashTransacciones = ctk.CTkFrame(self.dashBody, fg_color = "red")
+        self.dashTransacciones.grid(row=2, column=0, sticky="nsew", padx=20, pady=30)
         
 
         self.grid_rowconfigure(0, weight=1)
@@ -109,9 +106,7 @@ class VistaDashboard(ctk.CTkFrame):
 
         accounts = obtener_cuentas()
 
-
         if accounts:
-            print("Hay cuentas")
             for index, acc in enumerate(accounts):
 
                 simbol = ""
@@ -143,16 +138,7 @@ class VistaDashboard(ctk.CTkFrame):
                 account_type = ctk.CTkLabel(account_item, text=acc["tipo_cuenta"], font=("Arial", 12), text_color = SECUNDARY_TEXT)
                 account_type.grid(row=2, column=0, padx=10, pady=10)
 
-
-                # account_item.grid_rowconfigure(0, weight=1)
-                # account_item.grid_columnconfigure(0, weight=1)
-                # account_item.grid_columnconfigure(1, weight=1)
-                # account_item.grid_propagate(False)
-                # account_item.configure(width=200, height=50)
-                # account_item.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
-                # account_item.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
-
-                print(acc)
+                # print(acc)
         else:
             pass
 
@@ -176,7 +162,7 @@ class VistaDashboard(ctk.CTkFrame):
 
     def abrir_popup_nueva_cuenta(self):
         
-        PopupNuevaCuenta(self)
+        PopupNuevaCuenta(self, self)
 
     def lista_cuentas(self):
         self.header_title.configure(text="Cuentas")
